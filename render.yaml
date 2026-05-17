@@ -1,17 +1,14 @@
 services:
   - type: web
-    name: student-performance-backend
+    name: student-performance-system
     env: node
-    rootDir: backend
     plan: free
-    buildCommand: npm install
-    startCommand: npm start
+    buildCommand: npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend
+    startCommand: npm start --prefix backend
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
       - key: MONGODB_URI
         sync: false
       - key: OPENROUTER_API_KEY
@@ -19,15 +16,4 @@ services:
       - key: OPENROUTER_MODEL
         value: openrouter/free
       - key: FRONTEND_URL
-        sync: false
-
-  - type: web
-    name: student-performance-frontend
-    env: static
-    rootDir: frontend
-    plan: free
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
         sync: false
